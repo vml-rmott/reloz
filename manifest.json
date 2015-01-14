@@ -1,0 +1,16 @@
+{
+  "name": "reLoz",
+  "version": "1.2",
+  "manifest_version": 2,
+  "description": "Re-color and modify JIRA® status lozenges",
+  "icons": { "128": "icon_128.png" },
+  "author": "rmott@vml.com",
+  "permissions": ["http://*/*", "https://*/*"],
+  "content_scripts": [
+    {
+      "matches": ["http://*/*", "https://*/*"],
+      "js": ["mutation_summary.js", "content_script.js"],
+      "all_frames": true
+    }
+  ]
+}
