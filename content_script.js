@@ -14,35 +14,45 @@
 // limitations under the License.
 
 var CLASS_PREFIX = "jira-issue-status-lozenge-";
-var GREEN = CLASS_PREFIX + "green";
-var YELLOW = CLASS_PREFIX + "yellow";
-var BROWN = CLASS_PREFIX + "brown";
-var RED = CLASS_PREFIX + "warm-red";
-var BLUE = CLASS_PREFIX + "blue-gray";
-var GRAY = CLASS_PREFIX + "medium-gray";
-var TARGET = "Blocked";
-var SELECTOR = "span." + YELLOW;
+
+var _target;
+var _selector;
+var _from_color;
+var _to_color;
 
 fixIt = function(e) {
-    if (e.textContent == TARGET) {
-        e.classList.remove(YELLOW);
-        e.classList.add(RED);
+    if (e.textContent == _target) {
+        e.classList.remove(_from_color);
+        e.classList.add(_to_color);
     }
-}
-
-Array.prototype.slice.call(document.querySelectorAll(SELECTOR)).forEach(fixIt);
+};
 
 handleChanges = function(summaries) {
     summaries.forEach(function(summary) {
         summary.added.forEach(fixIt)
     })
-}
+};
 
-var observer = new MutationSummary({
-    callback: handleChanges,
-    rootNode: document,
-    observeOwnChanges: false,
-    queries: [{
-        element: SELECTOR
-    }]
+chrome.storage.sync.get({
+    label: 'Blocked',
+    fromColor: 'yellow',
+    toColor: 'warm-red'
+}, function(items) {
+    _target = items.label;
+    _from_color = CLASS_PREFIX + items.fromColor;
+    _selector = "span." + _from_color;
+    _to_color = CLASS_PREFIX + items.toColor;
+
+    Array.prototype.slice.call(document.querySelectorAll(_selector)).forEach(fixIt);
+
+    new MutationSummary({
+        callback: handleChanges,
+        rootNode: document,
+        observeOwnChanges: false,
+        queries: [{
+            element: _selector
+        }]
+    });
 });
+
+
