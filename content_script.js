@@ -46,9 +46,3 @@ var observer = new MutationSummary({
         element: SELECTOR
     }]
 });
-
-// function removeUppercase() { document.styleSheets[0].insertRule('.aui-lozenge { text-transform: inherit ! important; }', 0); }
-// function removeBold() { document.styleSheets[0].insertRule('.aui-lozenge { font-weight: inherit ! important; }', 0); }
-// function toggleSubtle(subtle) { Array.prototype.slice.call(document.querySelectorAll("span.jira-issue-status-lozenge")).forEach(function(e){e.classList.toggle("aui-lozenge-subtle", subtle);}); }
-
-// if (document.querySelector('.aui-lozenge') != null) {}
